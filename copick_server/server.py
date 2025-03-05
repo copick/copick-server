@@ -146,29 +146,39 @@ class CopickRoute:
                 # Get the data from the request body
                 blob = await request.body()
                 
-                # Extract shape information (first 24 bytes contain 3 int64 values)
-                shape = np.frombuffer(blob[:24], dtype=np.int64)
-                
-                # Extract the actual data and reshape it
-                data = np.frombuffer(blob[24:], dtype=np.uint8).reshape(shape)
-                
-                # Import the writer utility
-                from copick_utils.writers.write import segmentation
-                
-                # Use the utility function to write the segmentation
-                seg = segmentation(
-                    run=run,
-                    segmentation_volume=data,
-                    user_id=user_id,
-                    name=name.replace("-multilabel", ""),
-                    session_id=session_id,
+                # Get the existing segmentation
+                segs = run.get_segmentations(
                     voxel_size=voxel_size,
-                    multilabel=is_multilabel
+                    name=name.replace("-multilabel", ""),
+                    user_id=user_id,
+                    session_id=session_id,
+                    is_multilabel=is_multilabel
                 )
+                
+                if not segs:
+                    return Response(status_code=404, content="Segmentation not found")
+                
+                seg = segs[0]
+                
+                # Get the chunk path
+                chunk_path = "/".join(parts[1:])
+                print(f"Updating chunk at path: {chunk_path}")
+                
+                if not chunk_path:
+                    return Response(status_code=400, content="No chunk path specified")
+                
+                # Open the zarr store directly
+                zarr_store = seg.zarr()
+                
+                # Write the chunk directly to the zarr store
+                zarr_store[chunk_path] = blob
+                print(f"Updated chunk at {chunk_path} with {len(blob)} bytes")
                 
                 return Response(status_code=200)
             except Exception as e:
                 print(f"Segmentation write error: {str(e)}")
+                import traceback
+                traceback.print_exc()
                 return Response(status_code=500)
         else:
             segs = run.get_segmentations(

@@ -1,0 +1,59 @@
+name: Docker Image Build
+
+on:
+  workflow_call:
+    inputs:
+      envs:
+        description: 'Env names, comma delimited'
+        required: true
+        type: string
+      path_filters:
+        description: 'Glob patterns to match against changed files in the repository, comma delimited'
+        required: true
+        type: string
+      path_filters_base:
+        description: |
+          Git reference (e.g. branch name) against which the changes will be detected. Defaults to the current branch.
+          If it references same branch it was pushed to, changes are detected against the most recent commit before the push.
+          This option is ignored if action is triggered by pull_request event.
+        required: false
+        type: string
+        default: ${{ github.ref }}
+      branches_include:
+        description: 'Branches to build on, comma delimited'
+        required: false
+        type: string
+        default: '*'
+      branches_ignore:
+        description: 'Branches to skip build on, comma delimited'
+        required: false
+        type: string
+        default: ''
+      force_update_manifests:
+        description: 'Whether to always update ArgoCD manifests after building the Docker images'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  copick-server_builder:
+    uses: chanzuckerberg/github-actions/.github/workflows/argus-docker-build.yaml@v5
+    secrets: inherit
+    with:
+      branches_include: ${{ inputs.branches_include }}
+      branches_ignore: ${{ inputs.branches_ignore }}
+      path_filters: ${{ inputs.path_filters }}
+      path_filters_base: ${{ inputs.path_filters_base }}
+      envs: ${{ inputs.envs }}
+      force_update_manifests: ${{ inputs.force_update_manifests }}
+      images: |
+        {
+          "copick-server": {
+            "argus_root": ".",
+            "context": ".",
+            "dockerfile": "Dockerfile",
+            "build_args": [
+              "BUILDKIT_INLINE_CACHE=1"
+            ]
+          }
+        }

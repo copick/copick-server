@@ -1,0 +1,28 @@
+stack:
+  services:
+    copick-server:
+      image:
+        tag: sha-000000
+      replicaCount: 1
+      env:
+        - name: DATABASE_HOST
+          value: $(__ARGUS_STACK_NAME)-postgresql
+        - name: DATABASE_PORT
+          value: "5432"
+        - name: DATABASE_USER
+          value: postgres
+        - name: DATABASE_NAME
+          value: copick-server
+
+postgresql:
+  volumePermissions:
+    enabled: true
+  containerPorts:
+    postgresql: 5432
+  auth:
+    database: copick-server
+    # if you change this password you must delete and recreate all rdev stacks:
+    # https://stackoverflow.com/questions/63917524/helm-postgres-password-authentication-failed/63917525#63917525
+    existingSecret: argus-env-secret.copick-server.rdev.{{ .Release.Name }}
+    secretKeys:
+      adminPasswordKey: DATABASE_PASSWORD

@@ -230,6 +230,10 @@ def create_copick_app(
     """
     app = FastAPI()
     route_handler = CopickRoute(root)
+    @app.get("/health/")
+    def health_check():
+        """Health check endpoint."""
+        return {"status": "ok"}
 
     # Add the catch-all route
     app.add_api_route(

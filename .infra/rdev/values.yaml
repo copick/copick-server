@@ -2,7 +2,7 @@ stack:
   services:
     copick-server:
       image:
-        tag: sha-000000
+        tag: sha-5c921aa
       replicaCount: 1
       env:
         - name: DATABASE_HOST
@@ -13,7 +13,6 @@ stack:
           value: postgres
         - name: DATABASE_NAME
           value: copick-server
-
 postgresql:
   volumePermissions:
     enabled: true

@@ -18,4 +18,4 @@ jobs:
         uses: chanzuckerberg/argus-artifacts/ci/packages/delete-stack@v0.24.0
         with:
           appName: copick-server
-          envName: rdevs
+          envName: rdev

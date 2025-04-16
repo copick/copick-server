@@ -51,6 +51,7 @@ jobs:
           "copick-server": {
             "argus_root": ".",
             "context": ".",
+            "platform": "linux/amd64",
             "dockerfile": "Dockerfile",
             "build_args": [
               "BUILDKIT_INLINE_CACHE=1"

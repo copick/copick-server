@@ -1,5 +1,5 @@
 import json
-from typing import Dict, List, Optional, Union
+from typing import List, Optional
 
 import click
 import copick
@@ -7,11 +7,8 @@ import numpy as np
 import uvicorn
 import threading
 
-import zarr
-from fsspec import AbstractFileSystem
 from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.routing import APIRoute
 
 
 class CopickRoute:

@@ -5,7 +5,7 @@ from fsspec import get_mapper
 
 # First read the tomogram to get the shape
 store = get_mapper("http://localhost:8000/14268/Tomograms/VoxelSpacing7.84/wbp.zarr")
-tomo = zarr.open(store, mode='r')
+tomo = zarr.open(store, mode="r")
 full_shape = tomo["0"].shape
 print(f"Tomogram shape: {full_shape}")
 

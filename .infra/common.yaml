@@ -5,6 +5,8 @@ stack:
       enabled: false
     service:
       port: 3026
+    nodeSelector:
+      kubernetes.io/arch: amd64
 
   services:
     copick-server:

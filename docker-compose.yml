@@ -9,8 +9,8 @@ services:
     volumes:
       - .:/app
     ports:
-      - "8091:8091"
-    command: ["uv", "run", "copick_server/server.py", "example_copick.json", "--host", "0.0.0.0", "--port", "8091"]
+      - "8012:8012"
+    command: ["uv", "run", "copick_server/server.py", "example_copick.json", "--host", "0.0.0.0", "--port", "8012"]
 networks:
   default:
     name: copick-server

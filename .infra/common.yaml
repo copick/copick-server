@@ -4,7 +4,7 @@ stack:
     autoscaling:
       enabled: false
     service:
-      port: 3026
+      port: 3091
     nodeSelector:
       kubernetes.io/arch: amd64
 

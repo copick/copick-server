@@ -233,7 +233,7 @@ async def test_handle_segmentation_put(mock_write_segmentation):
     assert kwargs["session_id"] == "session"
     assert kwargs["name"] == "object"
     assert kwargs["voxel_size"] == 10.0
-    assert kwargs["multilabel"] == False
+    assert not kwargs["multilabel"]
 
     # Check that the segmentation volume shape is correct
     assert kwargs["segmentation_volume"].shape == (10, 10, 10)

@@ -2,7 +2,7 @@ stack:
   services:
     copick-server:
       image:
-        tag: sha-5c921aa
+        tag: sha-697b41b
       replicaCount: 1
       env:
         - name: DATABASE_HOST

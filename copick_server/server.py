@@ -22,15 +22,19 @@ class CopickRoute:
     async def handle_request(self, request: Request, path: str):
         # Parse path parameters
         path_parts = path.split("/")
+        print(path_parts)
         
         # Handle different path patterns
         try:
             if len(path_parts) >= 3:
                 run_name = path_parts[0]
                 data_type = path_parts[1]
+                print(run_name)
+                print(data_type)
                 
                 # Get the run
                 run = self.root.get_run(run_name)
+                print("run", run)
                 if run is None:
                     return Response(status_code=404)
                     
@@ -50,6 +54,7 @@ class CopickRoute:
     async def _handle_tomogram(self, request, run, path):
         # Extract voxel spacing and tomogram type from path
         parts = path.split("/")
+        print(parts)
         if len(parts) < 2:
             return Response(status_code=404)
             
@@ -65,8 +70,11 @@ class CopickRoute:
         vs = run.get_voxel_spacing(voxel_spacing)
         if vs is None:
             return Response(status_code=404)
+        print("vs", vs)
             
-        tomogram = vs.get_tomogram(tomo_type)
+        print("tomo_type", tomo_type)
+        tomogram = vs.get_tomograms(tomo_type)
+        print("tomogram", tomogram)
         if tomogram is None:
             return Response(status_code=404)
             
@@ -100,6 +108,9 @@ class CopickRoute:
             
         user_id, session_id, object_name = pick_parts
         object_name = object_name.replace(".json", "")
+        print("user_id", user_id)
+        print("session_id", session_id)
+        print("object_name", object_name)
         
         # Get or create picks
         picks = None
@@ -114,7 +125,7 @@ class CopickRoute:
                 print(f"Picks write error: {str(e)}")
                 return Response(status_code=500)
         else:
-            picks = run.get_picks(object_name=object_name, user_id=user_id, session_id=session_id)
+            picks = run.picks
             if not picks:
                 return Response(status_code=404)
                 

@@ -26,3 +26,11 @@ stack:
         paths:
           - path: /
             pathType: Prefix
+      persistence:
+        enabled: true
+        pvc:
+          resources:
+            requests:
+              storage: 30Gi
+          storageClassName: "ebs-io2"
+        mountPath: "/mnt/copick"

@@ -76,6 +76,18 @@ python -m copick_server.server serve --help
 | --port            | Bind socket to this port                               | 8000          |
 | --reload          | Enable auto-reload                                     | False         |
 
+## Use in other projects
+
+[CryoLens](https://github.com/czi-ai/cryolens) extends copick-server to support generative models of cryo-ET particles.
+
 ## References
 
-The idea is influenced by https://github.com/manzt/simple-zarr-server, but aimed at supporting https://github.com/kephale/copick.
+The idea is influenced by https://github.com/manzt/simple-zarr-server, but aimed at supporting https://github.com/copick/copick.
+
+## Code of Conduct
+
+This project adheres to the Contributor Covenant [code of conduct](https://github.com/chanzuckerberg/.github/blob/main/CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [opensource@chanzuckerberg.com](mailto:opensource@chanzuckerberg.com).
+
+## Reporting Security Issues
+
+If you believe you have found a security issue, please responsibly disclose by contacting us at [security@chanzuckerberg.com](mailto:security@chanzuckerberg.com).
